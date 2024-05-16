@@ -12,7 +12,8 @@ CREATE TABLE lists{
     UserId int,
     Title varchar(200),
     Content text,
-    Created datetime,
+    Checked boolean DEFAULT false,
+    DateTime datetime NOT NULL DEFAULT current_timestamp(),
     
     FOREIGN KEY(UserId) REFERENCES users(Id)
-};
+}; ENGINE=InnoDB DEFAULT CHARSET=latin1;

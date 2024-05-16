@@ -35,7 +35,7 @@
 
                 $id = $_SESSION['id'];
 
-                $edit_query = mysqli_query($con,"UPDATE users SET Username='$username', Email='$email' WHERE Id=$id ") or die("error occurred");
+                $edit_query = mysqli_query($conn,"UPDATE users SET Username='$username', Email='$email' WHERE Id=$id ") or die("error occurred");
 
                 if($edit_query){
                     echo "<div class='message'>
@@ -47,7 +47,7 @@
                }else{
 
                 $id = $_SESSION['id'];
-                $query = mysqli_query($con,"SELECT*FROM users WHERE Id=$id ");
+                $query = mysqli_query($conn,"SELECT*FROM users WHERE Id=$id ");
 
                 while($result = mysqli_fetch_assoc($query)){
                     $res_Uname = $result['Username'];
