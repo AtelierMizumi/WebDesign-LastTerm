@@ -102,7 +102,7 @@
     .main-box{
         display: flex;
         flex-direction: column;
-        width: 70%;
+        width: 80%;
     }
     .main-box .top{
         display: flex;
@@ -335,25 +335,7 @@
         border-color: #f5c6cb;
     }
 
-    
-    /* Note */
-    .sticky-note {
-        background-color: #fbf5c3;
-        box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
-                    0 32px 64px -48px rgba(0,0,0,0.5);
-        padding: 10px;
-    }
-
-    .sticky-note .card-body {
-        padding: 0; /* Remove default card body padding */
-    }
-
-    .sticky-note .card-title {
-        font-size: 1.5rem; /* Title font size */
-        font-weight: bold; /* Bold title text */
-        margin-bottom: 12px; /* Space between title and content */
-    }
-
-    .sticky-note .form-check-label {
-        color: #333; /* Label color */
+    .task-container {
+        display: flex;
+        justify-content: flex-start;
     }

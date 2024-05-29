@@ -56,11 +56,11 @@
                 <button id="mbtn" class="btn btn-primary turned-button">Add a task</button>
             </div>
           </div>
-          <div class="container mt-3">
-            <div class="row" id="taskList">
+          <div class="taskList">
+            <div class="mt-3 task-container" id="task-container">
 
             </div>
-        </div>
+          </div>
         </div>
     </main>
     <div class="container">
@@ -94,7 +94,8 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/magic-grid.cjs.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
     <script>
     /*
     * Modal popup to add a task
@@ -141,29 +142,56 @@
                 dataType: 'json',
                 success: function(response) {
                     // Clear existing tasks
-                    $('#taskList').empty();
+                    $('#task-container').empty();
 
-                    // Append tasks to taskList
+                    var itemCount = 1;
                     $.each(response, function(index, task) {
-                        $('#taskList').append(`
-                        <div class="col-lg-3 col-md-4 col-sm-12 mb-3 border border-4 border-danger p-2 mb-2 border-opacity-75">
-                            <div class="card sticky-note">
-                                <div class="card-body">
-                                    <h5 class="card-title">${task.Title}</h5>
-                                    <p class="card-text">${task.Content}</p>
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p class="text-muted">${task.DateTime}</p>
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn-close" data-task-id="${task.Id}" aria-label="Close"></button>
-                                        </div>
-                                    </div>
+                        $('#task-container').append(`
+                            <div class="item${itemCount}" style="background: antiquewhite;
+                                            width: 320px;
+                                            min-height: 180px;
+                                            border-radius: 8px;
+                                            box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            border-radius: 12px;
+                                            padding: 20px;
+                                            margin: 10px;
+                                            flex-direction: column;
+                                            position: relative;">
+                            <div style="flex-grow: 1;">
+                                <h3>${task.Title}</h3>
+                                <br>
+                                <p>${task.Content}</p>
+                            </div>
+                            <div style="display: flex;
+                                        flex-direction: row;
+                                        justify-content: space-between;
+                                        margin-top: 20px;
+                                        width: 100%;">
+                                <div style="flex-grow: 1;">
+                                    <p class="text-muted">${task.DateTime}</p>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn-close" data-task-id="${task.Id}" aria-label="X" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer;">Done</button>
                                 </div>
                             </div>
                         </div>
                         `);
+                        itemCount++;
                     });
+
+                    let magicGrid = new MagicGrid({
+                        container: "#task-container", // Required. Can be a class, id, or an HTMLElement.
+                        items: itemCount, // Set items dynamically based on task count
+                        gutter: 20,
+                        static: true,
+                        useMin: true,
+                        animate: true
+                    });
+
+                    magicGrid.listen();
                 },
                 error: function() {
                     console.log('Error loading tasks');
