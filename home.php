@@ -14,19 +14,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/bootstrap-grid.min.css">
-    <title>Home</title>
+    <title>Trang chủ</title>
 </head>
 <body>
     <div class="nav">
         <div class="logo">
-            <!-- <img src="asset/logo.png" href="home.php" class="rounded float-left" alt=""> -->
-            <p><a href="home.php">Logo</a> </p>
+            <p><a href="home.php">Fastodo</a> </p>
         </div>
-
         <div class="right-links">
-
             <?php 
-            
             $id = $_SESSION['id'];
             $query = mysqli_query($conn,"SELECT*FROM users WHERE Id=$id");
             $query2 = mysqli_query($conn,"SELECT*FROM lists WHERE UserId=$id");
@@ -39,36 +35,34 @@
             }
 
             
-            echo "<a href='edit.php?Id=$res_id'>Change Profile</a>";
+            echo "<a href='edit.php?Id=$res_id' >Hiệu chỉnh</a>";
             ?>
 
-            <a href="php/logout.php"> <button class="btn">Log Out</button> </a>
+            <a href="php/logout.php"> <button class="btn">Đăng xuất</button> </a>
 
         </div>
     </div>
     <main>
-        <div class="main-box top">
-          <div class="top">
-            <div class="box">
-                <p>Welcome <b><?php echo $res_Uname ?></b>, you currently have <?php echo $row ?> task(s)</p>
+        <div class="main-box">
+            <button id="mbtn" class="btn btn-primary">Thêm</button>
+            <div class="row">
+            <div class="sticky-top float-left" id="sticky-div">
+                <!-- Add the control group here -->
             </div>
-            <div class="box">
-                <button id="mbtn" class="btn btn-primary turned-button">Add a task</button>
-            </div>
-          </div>
-          <div class="taskList">
-            <div class="mt-3 task-container" id="task-container">
+                <div class="taskList">
+                    <div class="mt-3 mx-1 task-container" id="task-container">
 
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
     </main>
-    <div class="container">
+    <div class="container-fluid">
     <!-- Trigger/Open The Modal -->
     <div id="modalDialog" class="modal">
         <div class="modal-content animate-top">
             <div class="modal-header">
-                <h5 class="modal-title">Add a task</h5>
+                <h5 class="modal-title">Thêm</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">x</span>
                 </button>
@@ -80,15 +74,15 @@
                 
                 <!-- Contact form -->
                 <div class="form-group">
-                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter task's title" required="">
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Tên công việc" required="">
                 </div>
                 <div class="form-group">
-                    <textarea name="content" id="content" class="form-control" placeholder="Enter content" rows="6" required></textarea>
+                    <textarea name="content" id="content" class="form-control" placeholder="Nội dung công việc" rows="6" required></textarea>
                 </div>
             </div>
                 <div class="modal-footer">
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
                 </div>
             </form>
             </div>

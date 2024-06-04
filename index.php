@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
-    <title>Login</title>
+    <title>Đăng Nhập</title>
 </head>
 <body>
       <div class="container">
@@ -29,9 +29,9 @@
                     $_SESSION['id'] = $row['Id'];
                 }else{
                     echo "<div class='message'>
-                      <p>Wrong Username or Password</p>
+                      <p>Sai tài khoản hoặc mật khẩu</p>
                        </div> <br>";
-                   echo "<a href='index.php'><button class='btn'>Go Back</button>";
+                   echo "<a href='index.php'><button class='btn'>Trở về</button>";
          
                 }
                 if(isset($_SESSION['valid'])){
@@ -41,7 +41,7 @@
 
             
             ?>
-            <header>Login</header>
+            <header>Đăng Nhập</header>
             <form action="" method="post">
                 <div class="field input">
                     <label for="email">Email</label>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="field input">
-                    <label for="password">Password</label>
+                    <label for="password">Mật khẩu</label>
                     <input type="password" name="password" id="password" autocomplete="off" required>
                 </div>
 
@@ -58,7 +58,7 @@
                     <input type="submit" class="btn" name="submit" value="Login" required>
                 </div>
                 <div class="links">
-                    Don't have account? <a href="register.php">Sign Up Now</a>
+                    Chưa có tải khoản? <a href="register.php">Đăng Kí Ngay</a>
                 </div>
             </form>
         </div>

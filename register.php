@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
-    <title>Register</title>
+    <title>Đăng Kí</title>
 </head>
 <body>
       <div class="container">
@@ -25,26 +25,26 @@
 
          if(mysqli_num_rows($verify_query) !=0 ){
             echo "<div class='message'>
-                      <p>This email is used, Try another One Please!</p>
+                      <p>Email này đã tồn tại, xin hãy xử dụng email khác</p>
                   </div> <br>";
-            echo "<a href='javascript:self.history.back()'><button class='btn'>Go Back</button>";
+            echo "<a href='javascript:self.history.back()'><button class='btn'>Trở về</button>";
          }
          else{
 
             mysqli_query($conn,"INSERT INTO users(Username,Email,Password) VALUES('$username','$email','$password')") or die("Error Occured");
 
             echo "<div class='message'>
-                      <p>Registration successfully!</p>
+                      <p>Đăng kí thành công!</p>
                   </div> <br>";
-            echo "<a href='index.php'><button class='btn'>Login Now</button>";
+            echo "<a href='index.php'><button class='btn'>Đăng Nhập</button>";
          }
 
          }else{
         ?>
-            <header>Sign Up</header>
+            <header>Đăng Kí</header>
             <form action="" method="post">
                 <div class="field input">
-                    <label for="username">Username</label>
+                    <label for="username">Tên tài khoản</label>
                     <input type="text" name="username" id="username" autocomplete="off" required>
                 </div>
 
@@ -54,14 +54,14 @@
                 </div>
 
                 <div class="field input">
-                    <label for="password">Password</label>
+                    <label for="password">Mật khẩu</label>
                     <input type="password" name="password" id="password" autocomplete="off" required>
                 </div>
                 <div class="field">
                     <input type="submit" class="btn" name="submit" value="Register" required>
                 </div>
                 <div class="links">
-                    Already a member? <a href="index.php">Sign In</a>
+                    Đã có tài khoản? <a href="index.php">Đăng Nhập</a>
                 </div>
             </form>
         </div>

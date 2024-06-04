@@ -58,7 +58,6 @@
         font-size: 15px;
         cursor: pointer;
         transition: all .3s;
-        margin-top: 10px;
         padding: 0px 10px;
     }
     .btn:hover{
@@ -102,7 +101,7 @@
     .main-box{
         display: flex;
         flex-direction: column;
-        width: 80%;
+        width: 100%;
     }
     .main-box .top{
         display: flex;
