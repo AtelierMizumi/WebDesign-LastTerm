@@ -6,7 +6,13 @@
         font-family: 'Poppins',sans-serif;
     }
     body{
-        background: #e4e9f7;
+        background-image: url('../asset/animated-background.gif');
+        background-size: cover;
+        height: 100vh;
+        padding:0;
+        margin:0;
+        background-repeat: no-repeat;
+        background-attachment: fixed; 
     }
     .container{
         display: flex;

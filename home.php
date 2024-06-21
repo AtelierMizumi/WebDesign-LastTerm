@@ -145,7 +145,7 @@
                                             width: 320px;
                                             min-height: 180px;
                                             border-radius: 8px;
-                                            box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+                                            box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
                                             display: flex;
                                             justify-content: center;
                                             align-items: center;
