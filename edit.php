@@ -13,17 +13,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
-    <title>Change Profile</title>
+    <title>Thay đổi thông tin</title>
 </head>
 <body>
     <div class="nav">
         <div class="logo">
-            <p><a href="home.php"> Logo</a></p>
+            <p><a href="home.php">Fastodo</a></p>
         </div>
 
         <div class="right-links">
-            <a href="#">Change Profile</a>
-            <a href="php/logout.php"> <button class="btn">Log Out</button> </a>
+            <a href="#">Đổi thông tin</a>
+            <a href="php/logout.php"> <button class="btn">Đăng xuất</button> </a>
         </div>
     </div>
     <div class="container">
@@ -39,9 +39,9 @@
 
                 if($edit_query){
                     echo "<div class='message'>
-                    <p>Profile Updated!</p>
+                    <p>Đã cập nhật thông tin!</p>
                 </div> <br>";
-              echo "<a href='home.php'><button class='btn'>Go Home</button>";
+              echo "<a href='home.php'><button class='btn'>Về trang chủ</button>";
        
                 }
                }else{
@@ -58,7 +58,7 @@
             <header>Change Profile</header>
             <form action="" method="post">
                 <div class="field input">
-                    <label for="username">Username</label>
+                    <label for="username">Tên người dùng</label>
                     <input type="text" name="username" id="username" value="<?php echo $res_Uname; ?>" autocomplete="off" required>
                 </div>
 

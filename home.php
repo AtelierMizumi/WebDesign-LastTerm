@@ -62,7 +62,7 @@
     <div id="modalDialog" class="modal">
         <div class="modal-content animate-top">
             <div class="modal-header">
-                <h5 class="modal-title">Thêm</h5>
+                <h5 class="modal-title">Thêm một công việc cần làm</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">x</span>
                 </button>
@@ -82,7 +82,7 @@
             </div>
                 <div class="modal-footer">
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    <button type="submit" class="btn btn-primary">Thêm tác vụ mới</button>
                 </div>
             </form>
             </div>
@@ -92,10 +92,7 @@
     <script src="js/jquery-3.2.1.min.js"></script>
     <script>
     /*
-    * Modal popup to add a task
-    * When the user clicks the button, open the modal
-    * When the user clicks on (x), close the modal
-    * When the user clicks anywhere outside of the modal, close it
+    * Universal modal script
     */
     // Get the modal
     var modal = $('#modalDialog');
@@ -135,29 +132,38 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    // Clear existing tasks
-                    $('#task-container').empty();
+                    $('#task-container').html('');
 
                     var itemCount = 1;
                     $.each(response, function(index, task) {
-                        $('#task-container').append(`
-                            <div class="item${itemCount}" style="background: antiquewhite;
-                                            width: 320px;
-                                            min-height: 180px;
-                                            border-radius: 8px;
-                                            box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
-                                            display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                            border-radius: 12px;
-                                            padding: 20px;
-                                            margin: 10px;
-                                            flex-direction: column;
-                                            position: relative;">
+                    $('#task-container').append(`
+                            <div class="item${itemCount}" style="background: #f9e2af;
+                                                                width: 320px;
+                                                                min-height: 180px;
+                                                                border-radius: 8px;
+                                                                box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+                                                                display: flex;
+                                                                justify-content: center;
+                                                                align-items: center;
+                                                                border-radius: 12px;
+                                                                padding: 20px;
+                                                                margin: 10px;
+                                                                flex-direction: column;
+                                                                position: relative;">
                             <div style="flex-grow: 1;">
-                                <h3>${task.Title}</h3>
+                            <div style="display: flex;
+                                            flex-direction: row;
+                                            justify-content: space-between;
+                                            width: 100%;">
+                                <div style="flex-grow: 1; margin-right: 20px">
+                                    <h3 style="word-break: break-word;">${task.Title}</h3>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn-edit" data-task-id="${task.Id}" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer;text-decoration: underline;">Edit</button>
+                                </div>
+                                </div>
                                 <br>
-                                <p>${task.Content}</p>
+                                <p style="min-width: 280px; word-break: break-word;">${task.Content}</p>
                             </div>
                             <div style="display: flex;
                                         flex-direction: row;
@@ -165,13 +171,13 @@
                                         margin-top: 20px;
                                         width: 100%;">
                                 <div style="flex-grow: 1;">
-                                    <p class="text-muted">${task.DateTime}</p>
+                                <p class="text-muted">${task.DateTime}</p>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn-close" data-task-id="${task.Id}" aria-label="X" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer;">Done</button>
+                                <button class="task-delete-button" data-task-id="${task.Id}" aria-label="X" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer;text-decoration: underline;">Done</button>
                                 </div>
                             </div>
-                        </div>
+                            </div>
                         `);
                         itemCount++;
                     });
@@ -179,8 +185,8 @@
                     let magicGrid = new MagicGrid({
                         container: "#task-container", // Required. Can be a class, id, or an HTMLElement.
                         items: itemCount, // Set items dynamically based on task count
-                        gutter: 20,
                         static: true,
+                        gutter: 20,
                         useMin: true,
                         animate: true
                     });
@@ -196,38 +202,76 @@
         // Load tasks on page load
         loadTasks();
 
-        // Refresh tasks on checkbox change
-        $(document).on('change', '.form-check-input', function() {
-            loadTasks();
-        });
-
-        // Form submission for adding new task
         $('#addTaskForm').submit(function(e) {
-            e.preventDefault();
-            $('.modal-body').css('opacity', '0.5');
-            $('.btn').prop('disabled', true);
+        e.preventDefault();
+        $('.modal-body').css('opacity', '0.5');
+        $('.btn').prop('disabled', true);
 
-            $form = $(this);
-            $.ajax({
+        $form = $(this);
+        $.ajax({
                 type: "POST",
                 url: 'php/ajax_submit.php',
                 data: 'new_task_submit=1&' + $form.serialize(),
                 dataType: 'json',
                 success: function(response) {
+                    $('.modal-body').css('opacity', '1');
+                    $('.btn').prop('disabled', false);
+                    modal.hide();
                     if (response.status == 1) {
-                        $('#addTaskForm')[0].reset();
-                        $('.response').html('' + response.message + '');
-                        // Reload tasks after adding a new task
                         loadTasks();
                     } else {
-                        $('.response').html('' + response.message + '');
+                        // Handle error or display message
+                        console.log(response.message);
                     }
-                    $('.modal-body').css('opacity', '');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    $('.modal-body').css('opacity', '1');
                     $('.btn').prop('disabled', false);
+                    modal.hide();
+                    // Handle error or display message
+                }
+            });
+        });
+
+
+        $(document).on('click', '.task-delete-button', function() {
+            var taskId = $(this).data('task-id');
+            console.log('Task ID:', taskId);
+
+            // Send an AJAX request to delete the task
+            $.ajax({
+                type: 'POST',
+                url: 'php/delete_task.php',
+                data: { taskId: taskId },
+                success: function(response) {
+                    console.log('Response:', response);
+                    // Remove the task element from the list
+                    $(this).closest('.item').remove();
+                    loadTasks();
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', error);
                 }
             });
         });
     });
     </script>
 </body>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="team-section">
+            <h3>Fastodo - Đồ án cuối kì môn Thiết kế web</h3>
+            <ul class="team-list">
+                <li>Trần Minh Thuận 23IT.EB107</li>
+                <li>Trần Thành Vinh 23IT.Eb119</li>
+                <li>Y Adin Byã 23IT.EB012</li>
+                <!-- Add more team members as needed -->
+            </ul>
+        </div>
+        <div>
+            <img src="./asset/shao-sitting.png" alt="Image" class="footer-image">
+        </div>
+    </div>
+</footer>
 </html>
