@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="asset/favicon.ico" type="image/ico">
     <link rel="stylesheet" href="style/style.css">
     <title>Đăng Kí</title>
 </head>
 <body>
-      <div class="container">
+      <div class="container" style="min-height: 100vh;">
         <div class="box form-box">
 
         <?php 
@@ -27,7 +28,7 @@
             echo "<div class='message'>
                       <p>Email này đã tồn tại, xin hãy xử dụng email khác</p>
                   </div> <br>";
-            echo "<a href='javascript:self.history.back()'><button class='btn'>Trở về</button>";
+            echo "<a href='javascript:self.history.back()'><button class='btn btn-primary fw-bold'>Trở về</button>";
          }
          else{
 
@@ -36,7 +37,7 @@
             echo "<div class='message'>
                       <p>Đăng kí thành công!</p>
                   </div> <br>";
-            echo "<a href='index.php'><button class='btn'>Đăng Nhập</button>";
+            echo "<a href='index.php'><button class='btn btn-primary fw-bold'>Đăng Nhập</button>";
          }
 
          }else{
@@ -57,8 +58,9 @@
                     <label for="password">Mật khẩu</label>
                     <input type="password" name="password" id="password" autocomplete="off" required>
                 </div>
+                <br>
                 <div class="field">
-                    <input type="submit" class="btn" name="submit" value="Register" required>
+                    <input type="submit" class="btn" name="submit" value="Đăng Kí" required>
                 </div>
                 <div class="links">
                     Đã có tài khoản? <a href="index.php">Đăng Nhập</a>
