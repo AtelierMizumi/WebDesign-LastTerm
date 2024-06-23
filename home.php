@@ -37,7 +37,7 @@ if (isset($_GET['logout'])) {
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="#!">About</a></li> -->
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,7 +63,6 @@ if (isset($_GET['logout'])) {
         </nav>
     <main>
         <div class="main-box">
-            <button id="mbtn" class="btn btn-primary fw-bold"> <span style="color: #fff; font-size: 16px;">&#10133;</span>  Thêm</button>
             <div class="row g-0">
                 <div class="sticky-top float-left" id="sticky-div"></div>
                     <div class="taskList">
@@ -96,7 +95,7 @@ if (isset($_GET['logout'])) {
                         <div class="form-group">
                             <textarea name="content" id="modalTaskContent" class="form-control" placeholder="Nội dung công việc" rows="6" required></textarea>
                         </div>
-                    </div>
+                    </div> 
                     <div class="modal-footer">
                         <!-- Submit button -->
                         <button type="submit" class="btn btn-primary fw-bold" id="submitButton">Thêm tác vụ mới</button>
@@ -126,41 +125,107 @@ if (isset($_GET['logout'])) {
                     dataType: 'json',
                     success: function(response) {
                         $('#task-container').empty();
-                        let itemCount = 1;
+                        let itemCount = 0;
 
                         // Filter tasks based on search query
                         const filteredTasks = response.filter(task => 
                             task.Title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             task.Content.toLowerCase().includes(searchQuery.toLowerCase())
                         );
-
-                        filteredTasks.forEach(task => {
-                            $('#task-container').append(`
-                                <div class="item${itemCount} taskItem" style="background: #f9e2af; width: 320px; min-height: 180px; box-shadow: 0 0 10px 0 rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; border-radius: 12px; padding: 20px; margin: 10px; flex-direction: column; position: relative;">
-                                    <div style="flex-grow: 1;">
-                                        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
-                                            <div style="flex-grow: 1; margin-right: 20px">
-                                                <h3 style="word-break: break-word;">${task.Title}</h3>
+                            filteredTasks.forEach(task => {
+                                $('#task-container').append(`
+                                    <div class="item${itemCount} taskItem">
+                                        <div style="flex-grow: 1;">
+                                            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                                                <div style="flex-grow: 1; margin-right: 20px">
+                                                    <h4 style="word-break: break-word;">${task.Title}</h3>
+                                                </div>
+                                                <div>
+                                                    <button type="button" class="btn-edit" data-task-id="${task.Id}" data-task-title="${task.Title}" data-task-content="${task.Content}" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: underline;">Sửa</button>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <p style="min-width: 280px; word-break: break-word;">${task.Content}</p>
+                                        </div>
+                                        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px; width: 100%;">
+                                            <div style="flex-grow: 1;">
+                                                <div class="fw-semibold">${task.DateTime}</div>
                                             </div>
                                             <div>
-                                                <button type="button" class="btn-edit" data-task-id="${task.Id}" data-task-title="${task.Title}" data-task-content="${task.Content}" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: underline;">Edit</button>
+                                                <button class="task-delete-button" data-task-id="${task.Id}" aria-label="X" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: underline;">Hoàn thành</button>
                                             </div>
                                         </div>
-                                        <br>
-                                        <p style="min-width: 280px; word-break: break-word;">${task.Content}</p>
                                     </div>
-                                    <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px; width: 100%;">
-                                        <div style="flex-grow: 1;">
-                                            <p class="text-muted">${task.DateTime}</p>
-                                        </div>
-                                        <div>
-                                            <button class="task-delete-button" data-task-id="${task.Id}" aria-label="X" style="background-color: transparent; border: none; color: #000; font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: underline;">Done</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `);
-                            itemCount++;
-                        });
+                                `);
+                                itemCount++;
+                            });
+                            if (itemCount === 0 && searchQuery.length === 0) {
+                                const messageDiv = document.createElement('div');
+                                messageDiv.className = 'div-frosted-glass btn-add';
+                                const image = document.createElement('img');
+                                image.src = 'asset/March7th/March_7th_Sticker_06.webp';
+                                image.alt = 'Hehe';
+                                const text = document.createElement('p');
+                                text.textContent = 'Yay! Không có gì phải làm cả~';
+                                messageDiv.append(image);
+                                messageDiv.append(text);
+                                $('#task-container').append(messageDiv);
+                            } else if (itemCount==0 && searchQuery.length > 0) {
+                                const messageDiv = document.createElement('div');
+                                messageDiv.className = 'div-frosted-glass btn-add';
+                                const image = document.createElement('img');
+                                image.src = 'asset/March7th/March_7th_Sticker_11.webp';
+                                image.alt = 'Uhhh..';
+                                const text = document.createElement('p');
+                                text.textContent = 'Tui không tìm thấy gì cả... Bạn nhập thứ gì đó khác đi!!';
+                                messageDiv.append(image);
+                                messageDiv.append(text);
+                                $('#task-container').append(messageDiv);
+                            } else if (itemCount > 0 && searchQuery.length > 0) {
+                                const messageDiv = document.createElement('div');
+                                messageDiv.className = 'div-frosted-glass btn-add';
+                                const image = document.createElement('img');
+                                image.src = 'asset/March7th/March_7th_Sticker_07.webp';
+                                image.alt = 'Hehhe';
+                                const text = document.createElement('p');
+                                text.textContent = 'Tui đã tìm thấy ' + itemCount + ' kết quả nè!';
+                                messageDiv.append(image);
+                                messageDiv.append(text);
+                                $('#task-container').append(messageDiv);
+                            } else if (itemCount < 3) {
+                                const messageDiv = document.createElement('div');
+                                messageDiv.className = 'div-frosted-glass btn-add';
+                                const image = document.createElement('img');
+                                image.src = 'asset/March7th/March_7th_Sticker_03.webp';
+                                image.alt = 'Come on!';
+                                const text = document.createElement('p');
+                                text.textContent = 'Chỉ còn ' + itemCount + ' nhiệm vụ nữa thôi là được thả xích rồi';
+                                messageDiv.append(image);
+                                messageDiv.append(text);
+                                $('#task-container').append(messageDiv);
+                            } else if (itemCount >= 3 && itemCount < 5) {
+                                const messageDiv = document.createElement('div');
+                                messageDiv.className = 'div-frosted-glass btn-add';
+                                const image = document.createElement('img');
+                                image.src = 'asset/March7th/March_7th_Sticker_05.webp';
+                                image.alt = 'I approve!';
+                                const text = document.createElement('p');
+                                text.textContent = 'Kiên trì hơn là bộc phát. Hôm nay chúng ta có ' + itemCount + ' nhiệm vụ';
+                                messageDiv.append(image);
+                                messageDiv.append(text);
+                                $('#task-container').append(messageDiv);
+                            } else {
+                                const messageDiv = document.createElement('div');
+                                messageDiv.className = 'div-frosted-glass btn-add';
+                                const image = document.createElement('img');
+                                image.src = 'asset/March7th/March_7th_Sticker_09.webp';
+                                image.alt = 'Get your things done...';
+                                const text = document.createElement('p');
+                                text.textContent = 'Việc hôm nay chớ để ngày mai~ Bạn có tận ' + itemCount + ' việc cần làm đó';
+                                messageDiv.append(image);
+                                messageDiv.append(text);
+                                $('#task-container').append(messageDiv);
+                            }
 
                         const magicGrid = new MagicGrid({
                             container: "#task-container",
@@ -203,7 +268,7 @@ if (isset($_GET['logout'])) {
                     $('#title').val('');
                     $('#content').val('');
                     modalTitle.text('Thêm công việc mới');
-                    submitButton.html('<span style="color: #FEFEFE; font-size: 16px;">&#10133;</span> Thêm');
+                    submitButton.html('Thêm');
                 }
                 modal.show();
             }
@@ -218,7 +283,7 @@ if (isset($_GET['logout'])) {
             modal.hide();
 
             // Event listener for opening the modal for adding a new task
-            $('#mbtn').on('click', function() {
+            $(document).on('click', '.btn-add', function() {
                 showModal();
             });
 
