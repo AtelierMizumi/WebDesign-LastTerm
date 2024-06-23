@@ -60,9 +60,10 @@
                 </div>
                 <br>
                 <div class="field">
-                    <input type="submit" class="btn" name="submit" value="Đăng Kí" required>
+                    <input type="submit" class="btn btn-primary fw-bold" name="submit" value="Đăng Kí" required>
                 </div>
-                <div class="links">
+                <br>
+                <div class="">
                     Đã có tài khoản? <a href="index.php">Đăng Nhập</a>
                 </div>
             </form>

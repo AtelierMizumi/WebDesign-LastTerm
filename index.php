@@ -60,7 +60,8 @@
                     
                     <input type="submit" class="btn btn-primary fw-bold" name="submit" value="Đăng Nhập" required>
                 </div>
-                <div class="links">
+                <br>
+                <div class="">
                     Chưa có tải khoản? <a href="register.php">Đăng Kí Ngay</a>
                 </div>
             </form>
